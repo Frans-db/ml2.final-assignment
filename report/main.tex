@@ -1,0 +1,69 @@
+%--------------------
+% Packages
+% -------------------
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+%\usepackage{gentium}
+\usepackage{mathptmx} % Use Times Font
+
+
+\usepackage[pdftex]{graphicx} % Required for including pictures
+\graphicspath{ {images/} }
+\usepackage[swedish]{babel} % Swedish translations
+\usepackage[pdftex,linkcolor=black,pdfborder={0 0 0}]{hyperref} % Format links for pdf
+\usepackage{calc} % To reset the counter in the document after title page
+\usepackage{enumitem} % Includes lists
+
+\frenchspacing % No double spacing between sentences
+\linespread{1.2} % Set linespace
+\usepackage[a4paper, lmargin=0.1666\paperwidth, rmargin=0.1666\paperwidth, tmargin=0.1111\paperheight, bmargin=0.1111\paperheight]{geometry} %margins
+%\usepackage{parskip}
+
+\usepackage[all]{nowidow} % Tries to remove widows
+\usepackage[protrusion=true,expansion=true]{microtype} % Improves typography, load after fontpackage is selected
+
+
+
+%-----------------------
+% Set pdf information and add title, fill in the fields
+%-----------------------
+\hypersetup{ 	
+pdfsubject = {Machine Learning 2 - Final Assignment},
+pdftitle = {Machine Learning 2 - Final Assignment},
+pdfauthor = {Frans de Boer}
+}
+
+\author{
+    Frans de Boer \\
+    frans.deboe \\
+    5661439 \\
+}
+\title{Machine learning 2 - Final Assignment}
+
+
+%-----------------------
+% Begin document
+%-----------------------
+\begin{document} %All text i dokumentet hamnar mellan dessa taggar, allt ovanför är formatering av dokumentet
+
+
+\section{PAC Learning}
+
+\subsection{Extend the proof that was given in the slides for the PAC-learnability of hyper-rectangles:
+show that axis-aligned hyper-rectangles in n-dimensional feature spaces (n > 2) are PAC
+learnable.}
+
+First note: This is a consistent learner so yes it is PAC learnable. Probably not the proof you wanted to see though (:
+
+% \begin{figure}[h]
+%     \centering
+%     \includegraphics[\linewidth]{PAC-2n.png}
+%     \caption{PAC Learnable hyper-rectangle with $n=2$}
+%     \Description{An example of the weighted maximum cut problem containing 5 nodes}
+%     \label{fig:pac-2n}
+%   \end{figure}
+  
+
+
+\end{document}
