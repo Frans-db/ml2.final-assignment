@@ -102,8 +102,6 @@ So instead we can use:
 
 So any n-dimensional hyper-rectangle is learnable.
 
-
-\clearpage
 \subsection{Assume we have a 2-dimensional feature space R2, and consider the set of concepts that are L1-balls: $c = \{(x, y) : |x| + |y| ≤ r\}$ (basically, all L1-balls centered around the origin). Use a learner that fits the tightest ball. Show that this class is PAC-learnable from training data of size m.}
 
 Same thing? what. literally just question a but now rotated 45 degrees
@@ -113,21 +111,68 @@ Same thing? what. literally just question a but now rotated 45 degrees
 maybe, maybe not. can't you still just do the tightest fit L1 ball?
 consistent learner so PAC learnable?
 
+\clearpage
 \section{VC Dimension}
+\label{sec:VC}
 Let us assume we are dealing with a two-class classification problem in d-dimensions.
 Let us start off with refreshing our memories. Consider the class of linear hypotheses (i.e.,
 all possible linear classifiers) in d-dimensional space.
 
 \subsection{Given N data points, how many possible labelings does this data set have?}
+\label{sec:2a}
 Each data point can have 2 labels, so $2^n$
 
 \subsection{What is the dimensionality d we need, at the least, for our class of linear hypotheses to
 be able to find perfect solutions to all possible labelings of a data set of size N? Stated
 differently, what is the smallest d that allows us to shatter N points?}
-d - 1?
+\label{sec:2b}
+$d - 1$ 
+
 
 \subsection{Consider d = 1 and a data set of size N. At maximum, how many different labelings of
 such a data set can decision stumps solve perfectly, i.e., with zero training error?}
-This would be all cases where there is no overlap. 
+\label{sec:2c}
+This would be all cases where there is no overlap, i.e. all points with class 1 (or 2) are either all on the left or right side. See Figure \ref{fig:stump} for an example with N=3. Note that the first 3 and last 3 examples are the same, just with inverted labelings.
+
+\begin{figure}[h]
+    \caption{Example of perfectly solvable labels with $N=3$}
+    \centering
+    \includegraphics[width=0.5\textwidth]{stump.png}
+    \label{fig:stump}
+\end{figure}
+
+With a dataset of size N, there are N ways in which we can have class 1 be on the left side and have a decision stump be able to solve it perfectly. There can be $1, 2, ..., N$ points with class 1 in a row.
+Because each of these possible label assignments has a compliment (just invert the classes), we end up with a total of $2N$ possible labelings that a decision stump can solve perfectly.
+
+\subsection{With the answer from 3.c, give an upper-bound on the maximum number of different
+labelings a data set of size N in d dimensions can get by means of decision stumps.}
+\label{sec:2d}
+
+We can once again look at Figure \ref*{fig:stump}, but now instead of true labels we can view the labels (red and blue) as labels predicted by the decision stump. The decision stump either assigns all points to the left of it as class 1 or as class 2. So in $d=1$ we know the maximum number of different labelings a data set of size N can get is $2N$. 
+
+Now to generalize this case to any dimension $d$. A possible problem with higher dimension spaces is that not each stump can shatter all N points. See Figure \ref{fig:non-shatter-stump} as an example. Since we are looking for the upper bound from now on I will make the assumption that the data set can be shattered, i.e. for $d=2$
+$$x_i \neq x_j \land y_i \neq y_j \forall i,j$$
+See Figure \ref{fig:shatter-stump} for an example.
+
+\begin{figure}[h]
+    \caption{Example of dataset that can't be shattered by a stump in $d=2$}
+    \centering
+    \includegraphics[width=0.5\textwidth]{non-shatter-stump.png}
+    \label{fig:non-shatter-stump}
+\end{figure}
+
+\begin{figure}[h]
+    \caption{Example of dataset that can be shattered by a stump in $d=2$}
+    \centering
+    \includegraphics[width=0.5\textwidth]{shatter-stump.png}
+    \label{fig:shatter-stump}
+\end{figure}
+
+A stump can only choose 1 variable (dimension) to make its decision. This means that per variable a stump can create $2N$ possible labelings (Section \ref{sec:2c}). In $d$ dimensions we can create $d$ possible stumps, so in total there are $2Nd$ possible labelings.
+
+So the upper-bound on the maximum number of different labels a data set of size $N$ in $d$ dimensions can get by means of decision stumps is $2Nd$. 
+
+\subsection{Using the bound from Exercise 3.d, determine the smallest upper-bound on the VC-dimension for decision stumps for dimensionalities $d ∈ \{1, 2, 3, 4, 5, 6, 7, 8, 1024, 2100\}$}
+\label{sec:3e}
 
 \end{document}
