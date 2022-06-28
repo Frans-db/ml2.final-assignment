@@ -10,7 +10,6 @@
 
 \usepackage[pdftex]{graphicx} % Required for including pictures
 \graphicspath{ {images/} }
-\usepackage[swedish]{babel} % Swedish translations
 \usepackage[pdftex,linkcolor=black,pdfborder={0 0 0}]{hyperref} % Format links for pdf
 \usepackage{calc} % To reset the counter in the document after title page
 \usepackage{enumitem} % Includes lists
@@ -152,19 +151,19 @@ labelings a data set of size N in d dimensions can get by means of decision stum
 
 We can once again look at Figure \ref*{fig:stump}, but now instead of true labels we can view the labels (red and blue) as labels predicted by the decision stump. The decision stump either assigns all points to the left of it as class 1 or as class 2. So in $d=1$ we know the maximum number of different labelings a data set of size N can get is $2N$. 
 
-Now to generalize this case to any dimension $d$. A possible problem with higher dimension spaces is that not each stump can shatter all N points. See Figure \ref{fig:non-shatter-stump} as an example. Since we are looking for the upper bound from now on I will make the assumption that the data set can be shattered, i.e. for $d=2$
+Now to generalize this case to any dimension $d$. A possible problem with higher dimension spaces is that not each stump can differentiate all N points. See Figure \ref{fig:non-shatter-stump} as an example. Since we are looking for the upper bound from now on I will make the assumption that all points in the data set can be differentiated by the decision stump, i.e. for $d=2$
 $$x_i \neq x_j \land y_i \neq y_j \forall i,j$$
 See Figure \ref{fig:shatter-stump} for an example.
 
 \begin{figure}[h]
-    \caption{Example of dataset that can't be shattered by a stump in $d=2$}
+    \caption{Example of dataset that can't be differentiated by a stump in $d=2$ (The current stump can't differentiate 1 and 2)}
     \centering
     \includegraphics[width=0.5\textwidth]{non-shatter-stump.png}
     \label{fig:non-shatter-stump}
 \end{figure}
 
 \begin{figure}[h]
-    \caption{Example of dataset that can be shattered by a stump in $d=2$}
+    \caption{Example of dataset that can be differentiated by a stump in $d=2$}
     \centering
     \includegraphics[width=0.5\textwidth]{shatter-stump.png}
     \label{fig:shatter-stump}
@@ -174,10 +173,16 @@ A stump can only choose 1 variable (dimension) to make its decision. This means 
 
 So the upper-bound on the maximum number of different labels a data set of size $N$ in $d$ dimensions can get by means of decision stumps is $2Nd$. 
 
-\subsection{Using the bound from Exercise 3.d, determine the smallest upper-bound on the VC-dimension for decision stumps for dimensionalities $d ∈ \{1, 2, 3, 4, 5, 6, 7, 8, 1024, 2100\}$}
+\subsection{Using the bound from Exercise 3.d, determine the smallest upper-bound on the VC-dimension for decision stumps for dimensionalities $d ∈ \{1, 2, 3, 4, 5, 6, 7, 8, 1024, 2^{100}\}$}
 \label{sec:3e}
-\textbf{VC-Dimension}: The largest number of nodes $N$ that a classifier can shatter in all possible $2^N$ ways.
+\textbf{VC-Dimension}: The largest number of nodes $N$ that a classifier can shatter in all possible $2^N$ ways for any possible data set.
+\textbf{Smallest upper-bound}: First size $N$ in dimension $d$ where decision stumps cannot shatter any data set
 
-in d=1 2? in d=2 2?
+As was shown in Section \ref*{sec:2d} the largest number of different labels a set of size $N$ in $d$ dimensions can get by means of decision stumps is $2Nd$. This means that for a decision stump to be able to shatter a data set of size $N$ in dimension $d$ the number of possible label assignments $2^N$ needs to be less than or equal to $2Nd$, so $$2^N \leq 2Nd$$
+
+For $d=1$ the VC dimension is 2. Any more than this and the decision stump won't be able to shatter the dataset by simply alternating the ground truth class assignments.
+
+Assume this is an $N$ where $2^N = 2Nd$ 
+for $d=2$ 
 
 \end{document}
