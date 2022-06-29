@@ -145,44 +145,30 @@ This would be all cases where there is no overlap, i.e. all points with class 1 
 With a dataset of size N, there are N ways in which we can have class 1 be on the left side and have a decision stump be able to solve it perfectly. There can be $1, 2, ..., N$ points with class 1 in a row.
 Because each of these possible label assignments has a compliment (just invert the classes), we end up with a total of $2N$ possible labelings that a decision stump can solve perfectly.
 
+
 \subsection{With the answer from 3.c, give an upper-bound on the maximum number of different
 labelings a data set of size N in d dimensions can get by means of decision stumps.}
 \label{sec:2d}
 
-We can once again look at Figure \ref*{fig:stump}, but now instead of true labels we can view the labels (red and blue) as labels predicted by the decision stump. The decision stump either assigns all points to the left of it as class 1 or as class 2. So in $d=1$ we know the maximum number of different labelings a data set of size N can get is $2N$. 
+I'll be answering this question a bit more formally because finding the answer took a lot more exploring (as of writing this I still do not have the final answer).
 
-Now to generalize this case to any dimension $d$. A possible problem with higher dimension spaces is that not each stump can differentiate all N points. See Figure \ref{fig:non-shatter-stump} as an example. Since we are looking for the upper bound from now on I will make the assumption that all points in the data set can be differentiated by the decision stump, i.e. for $d=2$
-$$x_i \neq x_j \land y_i \neq y_j \forall i,j$$
-See Figure \ref{fig:shatter-stump} for an example.
+One initial observation is that in most cases (I'll discuss some cases later where this is not true) adding an extra data point simply adds $2$ to the total number of possible labelings. See Figure \ref{fig:adding-point} for an example. If we simply add the new point far away from the original data set such that each stump is able to classify it by itself, then this new point can be classified in 2 possible ways, and the original data set can be classified in the same number of ways as before this point was added. Note that the cases here are additive, not multiplicative.
 
 \begin{figure}[h]
-    \caption{Example of dataset that can't be differentiated by a stump in $d=2$ (The current stump can't differentiate 1 and 2)}
+    \caption{Adding a point to a data set with $N$ points}
     \centering
-    \includegraphics[width=0.5\textwidth]{non-shatter-stump.png}
-    \label{fig:non-shatter-stump}
+    \includegraphics[width=0.5\textwidth]{stump-3D.png}
+    \label{fig:adding-point}
 \end{figure}
 
-\begin{figure}[h]
-    \caption{Example of dataset that can be differentiated by a stump in $d=2$}
-    \centering
-    \includegraphics[width=0.5\textwidth]{shatter-stump.png}
-    \label{fig:shatter-stump}
-\end{figure}
+We can once again look at Figure \ref{fig:stump}, but now instead of true labels we can view the labels (red and blue) as labels predicted by the decision stump. The decision stump either assigns all points to the left of it as class 1 or as class 2. So in $d=1$ we know the maximum number of different labelings a data set of size N can get is $2N$. 
 
-A stump can only choose 1 variable (dimension) to make its decision. This means that per variable a stump can create $2N$ possible labelings (Section \ref{sec:2c}). In $d$ dimensions we can create $d$ possible stumps, so in total there are $2Nd$ possible labelings.
 
-So the upper-bound on the maximum number of different labels a data set of size $N$ in $d$ dimensions can get by means of decision stumps is $2Nd$. 
 
 \subsection{Using the bound from Exercise 3.d, determine the smallest upper-bound on the VC-dimension for decision stumps for dimensionalities $d ∈ \{1, 2, 3, 4, 5, 6, 7, 8, 1024, 2^{100}\}$}
 \label{sec:3e}
 \textbf{VC-Dimension}: The largest number of nodes $N$ that a classifier can shatter in all possible $2^N$ ways for any possible data set.
 \textbf{Smallest upper-bound}: First size $N$ in dimension $d$ where decision stumps cannot shatter any data set
 
-As was shown in Section \ref*{sec:2d} the largest number of different labels a set of size $N$ in $d$ dimensions can get by means of decision stumps is $2Nd$. This means that for a decision stump to be able to shatter a data set of size $N$ in dimension $d$ the number of possible label assignments $2^N$ needs to be less than or equal to $2Nd$, so $$2^N \leq 2Nd$$
-
-For $d=1$ the VC dimension is 2. Any more than this and the decision stump won't be able to shatter the dataset by simply alternating the ground truth class assignments.
-
-Assume this is an $N$ where $2^N = 2Nd$ 
-for $d=2$ 
 
 \end{document}
