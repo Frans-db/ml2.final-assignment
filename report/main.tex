@@ -133,13 +133,13 @@ $d - 1$
 \subsection{Consider d = 1 and a data set of size N. At maximum, how many different labelings of
 such a data set can decision stumps solve perfectly, i.e., with zero training error?}
 \label{sec:2c}
-This would be all cases where there is no overlap, i.e. all points with class 1 (or 2) are either all on the left or right side. See Figure \ref{fig:stump} for an example with N=3. Note that the first 3 and last 3 examples are the same, just with inverted labelings.
+This would be all cases where there is no overlap, i.e. all points with class 1 (or 2) are either all on the left or right side. See Figure \ref{fig:d1n3} for an example with N=3. Note that the first 3 and last 3 examples are the same, just with inverted labelings.
 
 \begin{figure}[h]
     \caption{Example of perfectly solvable labels with $N=3$}
     \centering
-    \includegraphics[width=0.5\textwidth]{stump.png}
-    \label{fig:stump}
+    \includegraphics[width=0.5\textwidth]{d1n3_possibilities.png}
+    \label{fig:d1n3}
 \end{figure}
 
 With a dataset of size N, there are N ways in which we can have class 1 be on the left side and have a decision stump be able to solve it perfectly. There can be $1, 2, ..., N$ points with class 1 in a row.
@@ -150,19 +150,19 @@ Because each of these possible label assignments has a compliment (just invert t
 labelings a data set of size N in d dimensions can get by means of decision stumps.}
 \label{sec:2d}
 
-I'll be answering this question a bit more formally because finding the answer took a lot more exploring (as of writing this I still do not have the final answer).
+We can once again look at Figure \ref{fig:d1n3}, but now instead of true labels we can view the labels (red and blue) as labels predicted by the decision stump. The decision stump either assigns all points to the left of it as class 1 or as class 2. So in $d=1$ we know the maximum number of different labelings a data set of size N can get is $2N$. 
 
-One initial observation is that in most cases (I'll discuss some cases later where this is not true) adding an extra data point simply adds $2$ to the total number of possible labelings. See Figure \ref{fig:adding-point} for an example. If we simply add the new point far away from the original data set such that each stump is able to classify it by itself, then this new point can be classified in 2 possible ways, and the original data set can be classified in the same number of ways as before this point was added. Note that the cases here are additive, not multiplicative.
+This can be viewed in another way, for every dimension the decision stump can make $2N$ different labelings. For example in 2D (Figure \ref{fig:d2n3}) the decision stump for the x dimension can make $2N$ labelings, and the decision stump for the y dimension can make $2N$ labelings.
+
+This continues for each dimension added, so we end up with a total of $2Nd$ maximum number of different labelings a data set of size N in d dimension can get by means of decision stumps.
+
 
 \begin{figure}[h]
-    \caption{Adding a point to a data set with $N$ points}
+    \caption{Example with $d=2$ and $N=3$}
     \centering
-    \includegraphics[width=0.5\textwidth]{stump-3D.png}
-    \label{fig:adding-point}
+    \includegraphics[width=0.5\textwidth]{d2n3_unlabeled.png}
+    \label{fig:d2n3}
 \end{figure}
-
-We can once again look at Figure \ref{fig:stump}, but now instead of true labels we can view the labels (red and blue) as labels predicted by the decision stump. The decision stump either assigns all points to the left of it as class 1 or as class 2. So in $d=1$ we know the maximum number of different labelings a data set of size N can get is $2N$. 
-
 
 
 \subsection{Using the bound from Exercise 3.d, determine the smallest upper-bound on the VC-dimension for decision stumps for dimensionalities $d ∈ \{1, 2, 3, 4, 5, 6, 7, 8, 1024, 2^{100}\}$}
