@@ -121,7 +121,7 @@ all possible linear classifiers) in d-dimensional space.
 
 \subsection{Given N data points, how many possible labelings does this data set have?}
 \label{sec:2a}
-Each data point can have 2 labels, so $2^n$
+Each data point can have 2 labels, so $2^N$
 
 \subsection{What is the dimensionality d we need, at the least, for our class of linear hypotheses to
 be able to find perfect solutions to all possible labelings of a data set of size N? Stated
@@ -192,8 +192,30 @@ It was not until a day of thinking and researching that I found these \href{http
 \subsection{Using the bound from Exercise 3.d, determine the smallest upper-bound on the VC-dimension for decision stumps for dimensionalities $d ∈ \{1, 2, 3, 4, 5, 6, 7, 8, 1024, 2^{100}\}$}
 \label{sec:3e}
 I used the definition from the book \textit{Foundations of Machine Learning} \cite{foundations_of_machine_learning} for the upper-bound on the VC-Dimension
-\textbf{VC-Dimension}: The largest number of nodes $N$ that a classifier can shatter in all possible $2^N$ ways for any possible data set.
-\textbf{Smallest upper-bound}: First size $N$ in dimension $d$ where decision stumps cannot shatter any data set
+\textbf{Smallest upper-bound}: To give an upper bound, we need to prove that no set $S$ of cardinality $N$ can be shattered
+
+Since we know the maximum number of different labelings a data set of size $N$ in $d$ dimensions can get by means of decision stumps to be $2Nd$ (Section \ref{sec:2d}), and the total number of possible different labelings of a data set of size $N$ can get is $2^N$ (Section \ref{sec:2a}), we have to find the first case where $2Nd < 2^N$. In other words, find the first $N$ for which the classifier cannot create every possible labeling.
+
+Since I could not find an analytical solution to this I decided to solve it programmatically. The results can be seen in Table \ref{tab:upper-bound-vc}.
+
+\begin{table}
+    \begin{tabular}{cc}
+    Dimensionality & Upper-bound on VC-Dimension \\
+    1              & 2                            \\
+    2              & 4                            \\
+    3              & 4                            \\
+    4              & 5                            \\
+    5              & 5                            \\
+    6              & 6                            \\
+    7              & 6                           \\
+    8              & 6                            \\
+    1024           & 14                            \\
+    $2^{100}$        & 107                           
+    \end{tabular}
+    \label{tab:upper-bound-vc}
+\end{table}
+
+To me one interesting thing about these results is that they did not seem to agree with some other results I had found online. \href{https://people.csail.mit.edu/alinush/6.867-fall-2013/2013.10.22.w8.tu-lecture-13-generalization-part-2.pdf}{These slides} mentions the growth should be proportional to $\log(d)$, which it is. But \href{http://courses.cms.caltech.edu/cs253/hw/hw2.pdf}{This homework assignment} gives an upper bound on the VC dimension of $2(\log_2(d) + 1)$. 
 
 \bibliographystyle{plain}
 \bibliography{refs}
