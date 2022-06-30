@@ -192,7 +192,8 @@ It was not until a day of thinking and researching that I found these \href{http
 \subsection{Using the bound from Exercise 3.d, determine the smallest upper-bound on the VC-dimension for decision stumps for dimensionalities $d ∈ \{1, 2, 3, 4, 5, 6, 7, 8, 1024, 2^{100}\}$}
 \label{sec:3e}
 I used the definition from the book \textit{Foundations of Machine Learning} \cite{foundations_of_machine_learning} for the upper-bound on the VC-Dimension
-\textbf{Smallest upper-bound}: To give an upper bound, we need to prove that no set $S$ of cardinality $N$ can be shattered
+
+\textbf{Smallest upper-bound on VC-dimension}: To give an upper bound, we need to prove that no set $S$ of cardinality $N$ can be shattered
 
 Since we know the maximum number of different labelings a data set of size $N$ in $d$ dimensions can get by means of decision stumps to be $2Nd$ (Section \ref{sec:2d}), and the total number of possible different labelings of a data set of size $N$ can get is $2^N$ (Section \ref{sec:2a}), we have to find the first case where $2Nd < 2^N$. In other words, find the first $N$ for which the classifier cannot create every possible labeling.
 
