@@ -1,5 +1,6 @@
-from cProfile import label
 import numpy as np
+import multiprocessing
+import argparse
 
 """
 Basic idea:
@@ -29,9 +30,29 @@ def can_shatter(dataset):
 def generate_random_data(d, n):
     return np.random.randint(0, n, (n, d))
 
-def main():
-    pass
+def check_dimensionality(config):
+    d, upper_bound, max_attempts = config
+    highest_N = -1
+    for N in range(1, upper_bound+1):
+        for _ in range(max_attempts):
+            data = generate_random_data(d, N)
+            if can_shatter(data):
+                highest_N = N
+    print(f'Highest N for dimension {d} is: {highest_N}')
 
-data = np.array([[0], [1]]) # can be shattered in any dimension
+def main():
+    parser = argparse.ArgumentParser(description='Execution Details')
+    parser.add_argument('--num_processes', dest='num_processes', type=int, default=4,
+                help='Number of parallel processes to use')
+    parser.add_argument('--num_processes', dest='max_attempts', type=int, default=100_000,
+                help='Number of parallel processes to use')
+    args = parser.parse_args()
+
+    # quickly thrown together multiprocessing so I don't have to wait too long for results
+    upper_bounds = [2, 4, 4, 5, 5, 6, 6, 6, 6, 7, 7, 7]
+    configs = [(d+1, upper_bound, args.max_attempts) for d,upper_bound in enumerate(upper_bounds)]
+    pool_obj = multiprocessing.Pool(processes=args.num_processes)
+    pool_obj.map(check_dimensionality, configs)
+
 if __name__ == '__main__':
-    pass
+    main()
