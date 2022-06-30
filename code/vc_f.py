@@ -42,22 +42,23 @@ def enumerate_data(d, n):
 
 def check_dimensionality(config):
     d, upper_bound, max_attempts = config
-    highest_N = -1
-    for N in range(1, upper_bound+1):
+
+    for N in list(range(1, upper_bound+1))[::-1]:
         attempts = 0
         for data in generate_random_data(d, N):
             if can_shatter(data):
-                highest_N = N
+                print(f'Highest N for dimension {d} is: {N}')
+                return
             attempts += 1
             if attempts >= max_attempts:
                 break
-    print(f'Highest N for dimension {d} is: {highest_N}')
+    
 
 def main():
     parser = argparse.ArgumentParser(description='Execution Details')
     parser.add_argument('--num_processes', dest='num_processes', type=int, default=4,
                 help='Number of parallel processes to use')
-    parser.add_argument('--max_attempts', dest='max_attempts', type=int, default=5000,
+    parser.add_argument('--max_attempts', dest='max_attempts', type=int, default=500,
                 help='Number of parallel processes to use')
     args = parser.parse_args()
 
