@@ -34,10 +34,7 @@ def generate_random_data(d, n):
 
 def enumerate_data(d, n):
     """
-    Going from -n to n there are only (2n)nd = 2dn^2 possibilities. at most we'll have d=12,n=7, in which case 2dn^2 = 1176. I've found my pc can comfortably handle 100k random points, so enumeration for a 
-    low dimensionality should not be a problem
-    Because this scales linearly with the size of the input (i.e. choosing from -2n to 2n) we can also sample a much larger space:
-        Sampling from -2n to 2n would give (4n)nd = 4dn^2. For d=12, n=7 this is 2352
+    n**d
     """
     datasets = itertools.product(*tuple([itertools.product(*tuple([range(0, n) for _ in range(d)])) for _ in range(n)]))
     for dataset in datasets:
@@ -48,7 +45,7 @@ def check_dimensionality(config):
     highest_N = -1
     for N in range(1, upper_bound+1):
         attempts = 0
-        for data in enumerate_data(d, N):
+        for data in generate_random_data(d, N):
             if can_shatter(data):
                 highest_N = N
             attempts += 1
