@@ -50,7 +50,6 @@ def check_dimensionality(config):
                 highest_N = N
             attempts += 1
             if attempts >= max_attempts:
-                print('reached max attempts')
                 break
     print(f'Highest N for dimension {d} is: {highest_N}')
 
