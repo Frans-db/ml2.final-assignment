@@ -44,7 +44,7 @@ def main():
     parser = argparse.ArgumentParser(description='Execution Details')
     parser.add_argument('--num_processes', dest='num_processes', type=int, default=4,
                 help='Number of parallel processes to use')
-    parser.add_argument('--num_processes', dest='max_attempts', type=int, default=100_000,
+    parser.add_argument('--max_attempts', dest='max_attempts', type=int, default=100_000,
                 help='Number of parallel processes to use')
     args = parser.parse_args()
 
