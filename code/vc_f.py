@@ -1,6 +1,7 @@
 import numpy as np
 import multiprocessing
 import argparse
+import itertools
 
 """
 Basic idea:
@@ -28,23 +29,39 @@ def can_shatter(dataset):
     return False
 
 def generate_random_data(d, n):
-    return np.random.randint(0, n, (n, d))
+    while True:
+        yield np.random.randint(-n, n, (n, d))
+
+def enumerate_data(d, n):
+    """
+    Going from -n to n there are only (2n)nd = 2dn^2 possibilities. at most we'll have d=12,n=7, in which case 2dn^2 = 1176. I've found my pc can comfortably handle 100k random points, so enumeration for a 
+    low dimensionality should not be a problem
+    Because this scales linearly with the size of the input (i.e. choosing from -2n to 2n) we can also sample a much larger space:
+        Sampling from -2n to 2n would give (4n)nd = 4dn^2. For d=12, n=7 this is 2352
+    """
+    datasets = itertools.product(*tuple([itertools.product(*tuple([range(0, n) for _ in range(d)])) for _ in range(n)]))
+    for dataset in datasets:
+        yield np.array(dataset)
 
 def check_dimensionality(config):
     d, upper_bound, max_attempts = config
     highest_N = -1
     for N in range(1, upper_bound+1):
-        for _ in range(max_attempts):
-            data = generate_random_data(d, N)
+        attempts = 0
+        for data in enumerate_data(d, N):
             if can_shatter(data):
                 highest_N = N
+            attempts += 1
+            if attempts >= max_attempts:
+                print('reached max attempts')
+                break
     print(f'Highest N for dimension {d} is: {highest_N}')
 
 def main():
     parser = argparse.ArgumentParser(description='Execution Details')
     parser.add_argument('--num_processes', dest='num_processes', type=int, default=4,
                 help='Number of parallel processes to use')
-    parser.add_argument('--max_attempts', dest='max_attempts', type=int, default=100_000,
+    parser.add_argument('--max_attempts', dest='max_attempts', type=int, default=5000,
                 help='Number of parallel processes to use')
     args = parser.parse_args()
 
