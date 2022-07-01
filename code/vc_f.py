@@ -12,18 +12,22 @@ Given a dataset in $d$ dimensions, a function is needed that checks if this data
 def can_shatter(dataset):
     d = len(dataset[0])
     max_labelings = 2**len(dataset)
+    # both are arrays of size 2
     min_values = np.min(dataset, axis=0)
     max_values = np.max(dataset, axis=0)
 
     found_labels = set()
-
-
-    for stump_dimension, start, end in zip(range(d), min_values, max_values):
+    # iterate over dimension, lower_bound, upper_bound
+    iterator = zip(range(d), min_values, max_values)
+    for stump_dimension, start, end in iterator:
         for stump_boundary in range(start-1, end+1):
+            # anything lower than the stump boundary gets True
             labeled = dataset[:, stump_dimension] <= stump_boundary
             found_labels.add(tuple(labeled))
-            found_labels.add(tuple(~labeled)) # inverse is always achievable
-
+            # inverse is always achievable
+            found_labels.add(tuple(~labeled))
+            # stop when we found the max number of possible labels:
+            # dataset can be shattered
             if len(found_labels) == max_labelings:
                 return True
     return False
@@ -42,10 +46,13 @@ def enumerate_data(d, n):
 
 def check_dimensionality(config):
     d, upper_bound, max_attempts = config
-
-    for N in list(range(1, upper_bound+1))[::-1]:
+    # check from highest possible VD dimension first
+    # this was if it is found we can immediately stop
+    iterator = list(range(1, upper_bound+1))[::-1]
+    for N in iterator:
         attempts = 0
         for data in generate_random_data(d, N):
+            # just need to find a single dataset that can be shattered
             if can_shatter(data):
                 print(f'Highest N for dimension {d} is: {N}')
                 return
