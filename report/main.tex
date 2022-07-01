@@ -163,16 +163,21 @@ For each tests I'll be using a sample size of $m \in \{2, ... , 10000 \}$, and I
 
 $2$ is the surface area of the ground truth $L_1$ ball. This is divided by 2 because only positive samples that fall into this area will be misclassified (negative samples are never misclassified).
 
-First I wanted to run a test using a basic uniform distribution to confirm the code is working properly. The results from this test can be seen in Figure \ref{fig:learningcurve_uniform}. The more samples get added, the lower the error will be.
+% First I wanted to run a test using a basic uniform distribution to confirm the code is working properly. The results from this test can be seen in Figure \ref{fig:learningcurve_uniform}. The more samples get added, the lower the error will be.
 
 \begin{figure}[h]
     \caption{Learning Curve for a points sampled from a uniform distribution}
     \centering
-    \includegraphics[width=\textwidth]{learningcurve_uniform.png}
-    \label{fig:learningcurve_uniform}
+    \includegraphics[width=\textwidth]{learning_curves.png}
+    \label{fig:learning_curve}
 \end{figure}
 
-I personally think the best case scenario would be a method that generates samples close to the edge of the $L_1$ ball. Even better would be a method that generates sampels close to the outer points of the $L_1$ ball, so points where \[(|x| \approx 1 \lor |y| \approx 1) \land |x| + |y| = 1\]. In these cases the bounds of the $L_1$ ball can be obtained with just a few samples.
+The absolute best-case scenario would be a sampling method that generates the first sample to be $x \in \{(1,0), (0,1), (-1,0), (0,-1)\}$.
+All of these samples are on the outer corner of the $L_1$ ball, and the estimated $1$ will always be 1, so the estimated area will be $2$, and error will be $0$.
+
+This however does not seem like a very fair sampling method, so a fairer method might be one that generates samples close to the edge of the $L_1$ ball, so points where 
+\[|x| + |y| \approx 1\]
+Some of these points will fall outside of the $L_1$ ball and cannot be learnt from, but some of them will fall inside and can be used to determine the tightest fit $L_1$ ball.
 
 \subsection{Similarly, generate data according to, what you would argue is, the ‘worst case’ scenario. Clearly specify how you generate this data and show the resulting learning curve. How close is this curve to the theoretical PAC bound?}
 
@@ -412,8 +417,7 @@ I used \cite{decicion-stump-vc-dimension} to find the exact VC-dimension for eac
     \label{tab:vc-dimension}
 \end{table*}
 
-I ran code to solve this inequality, and the results for this can be seen in Table \ref{tab:vc-dimension}. Almost all VC-dimensions are the same as my experimentally found lower-bounds on the VC-dimension except for $d=10$, where I found 5 but the inequality has a result of 6. After seeing this I tried to use Algorithm \ref{alg:finder} to find the correct VC-dimension for $d=10$, but it was unable to find it.
-
+I ran code to solve this inequality, and the results for this can be seen in Table \ref{tab:vc-dimension}. Almost all VC-dimensions are the same as my experimentally found lower-bounds on the VC-dimension except for $d=10$, where I found 5 but the inequality has a result of 6. After seeing this I tried to use Algorithm \ref{alg:finder} to find the correct VC-dimension for $d=10$ by only searching with $N=6$ and my code was able to find a valid solution.
 
 
 \bibliographystyle{plain}
