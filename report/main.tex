@@ -40,7 +40,7 @@ pdfauthor = {Frans de Boer}
 
 \author{
     Frans de Boer \\
-    frans.deboer \\
+    fransdeboer \\
     5661439 \\
 }
 
@@ -111,6 +111,50 @@ Same thing? what. literally just question a but now rotated 45 degrees
 
 maybe, maybe not. can't you still just do the tightest fit L1 ball?
 consistent learner so PAC learnable?
+
+\subsection{Generate data according to, what you would argue is, the ‘best case’ scenario, i.e., for
+which learning is easiest. Clearly specify how you generate this data and show the resulting
+learning curve.}
+
+First I'll discuss the setup I'm using to run these tests. I'm generting $L_1$ balls with $r=1$. I've set the size of the sample space to 2. This means that the sample space is a $2x2$ square with the center at $(0,0)$. The surface area of this square is $4$, and the surface area of the $L_1$ ball is $2$, exactly half of the sample space.
+
+For each tests I'll be using a sample size of $m \in \{2, ... , 10000 \}$, and I'll be taking the average of 100 trials. From a set of samples $m$ the surface area of the  $L_1$ ball can be determined, and from here the error of the ground truth can be calculated. This error is 
+
+\[(2 - \textit{estimated\_area}) / 2\]
+
+$2$ is the surface area of the ground truth $L_1$ ball. This is divided by 2 because only positive samples that fall into this area will be misclassified (negative samples are never misclassified).
+
+First I wanted to run a test using a basic uniform distribution to confirm the code is working properly. The results from this test can be seen in Figure \ref{fig:learningcurve_uniform}. The more samples get added, the lower the error will be.
+
+\begin{figure}[h]
+    \caption{Learning Curve for a points sampled from a uniform distribution}
+    \centering
+    \includegraphics[width=\textwidth]{learningcurve_uniform.png}
+    \label{fig:learningcurve_uniform}
+\end{figure}
+
+I personally think the best case scenario would be a method that generates samples close to the edge of the $L_1$ ball. To do this I generated values for polar coordinates and converted these to cartesian coordinates in the following way:
+
+\begin{align*} 
+    &r_i ~ N(1, 0.2) \\ 
+    &d_i ~ U(0, 2\pi) \\
+    &x_i = r_i \cos(d_i) \\
+    &y_i = r_i \sin(d_i) \\
+\end{align*}
+
+This will generate samples following a donut like distribution (see Figure \ref{fig:donut} for an example of generated points). The learning curve can be seen in Figure 
+
+\begin{figure}[h]
+    \caption{Donut Distribution ($m=10000$)}
+    \centering
+    \includegraphics[width=\textwidth]{donut.png}
+    \label{fig:donut}
+\end{figure}
+
+\subsection{Similarly, generate data according to, what you would argue is, the ‘worst case’ scenario.
+Clearly specify how you generate this data and show the resulting learning curve. How
+close is this curve to the theoretical PAC bound?}
+
 
 \clearpage
 \section{VC Dimension}
