@@ -289,7 +289,7 @@ While trying to answer this question I pretty quickly came to the answer of $2Nd
 
 I tried to find patterns in combinations of $N$ and $d$, for example I noticed that for $d=2$ only $N \leq 3$ was solvable (see Figure \ref{fig:d2n3_solvable}), and for $d=3$ at least $N \leq 4$ was solvable (see Figure \ref{fig:d3n4_solvable}, here smaller circles can be seen as being further away in the z dimension). 
 
-From here it seemed like there was a pattern where for any $N \leq (d+1)$ the problem was fully solvable, so the number of possible labelings the decision stump could make was $2^N$. I could however not find a pattern in the number of labelings a decision stump could make for problems with $N > (d+1)$.
+From here it seemed like there was a pattern where for any $N \leq (d+1)$ the problem was fully solvable (although I show in later sections that this is also not true), so the number of possible labelings the decision stump could make was $2^N$. I could however not find a pattern in the number of labelings a decision stump could make for problems with $N > (d+1)$.
 
 \begin{figure}[h]
     \caption{Solvable example with $d=2$ and $N=3$}
@@ -346,7 +346,7 @@ Since I could not find an analytical solution to this I decided to solve it prog
     \label{tab:upper-bound-vc}
 \end{table*}
 
-To me one interesting thing about these results is that they did not seem to agree with some other results I had found online. \href{https://people.csail.mit.edu/alinush/6.867-fall-2013/2013.10.22.w8.tu-lecture-13-generalization-part-2.pdf}{\underline{These slides}}\footnote{\url{https://people.csail.mit.edu/alinush/6.867-fall-2013/2013.10.22.w8.tu-lecture-13-generalization-part-2.pdf}} mentions the growth should be proportional to $\log(d)$, which it is. But \href{http://courses.cms.caltech.edu/cs253/hw/hw2.pdf}{\underline{this homework assignment}}\footnote{\url{http://courses.cms.caltech.edu/cs253/hw/hw2.pdf}} gives an upper=bound on the VC dimension of $2(\log_2(d) + 1)$. I think they might have found an analytical solution to the upper-bound, but in doing so had to slightly increase it.
+To me one interesting thing about these results is that they did not seem to agree with some other results I had found online. \href{http://courses.cms.caltech.edu/cs253/hw/hw2.pdf}{\underline{This homework assignment}}\footnote{\url{http://courses.cms.caltech.edu/cs253/hw/hw2.pdf}} gives an upper-bound on the VC dimension of $2(\log_2(d) + 1)$. I think they might have found an analytical solution to the upper-bound, but in doing so had to slightly increase it.
 
 \subsection{Write a program that finds lower-bounds experimentally and that would even find the true VC-dimension given enough time (and a sufficient numerical precision). Provide a clear description for (possibly in terms of pseudo code) and reasoning behind the program. (Hint: given an arbitrary data set of of size N, you can of course always check if the class of decision stumps shatters it.)}
 \label{sec:2f}
@@ -380,7 +380,7 @@ def can_shatter(dataset):
     return False
 \end{lstlisting}
 
-The code for this can be seen in Algorithm \ref{alg:shatter}. I tried writing it out in pseudo code but this turned out to be almost the exact same as the Python code, so I think it's clearer add the original code with comments.
+The code for this can be seen in Algorithm \ref{alg:shatter}. I tried writing it out in pseudo code but this turned out to be almost the exact same as the Python code, so I think it's clearer to show the original code with comments.
 
 One thing that's good to explain is how I choose the locations of the decision boundaries. In my code the samples are always on integer coordinates (more on my sampling method later), so by iterating my decision boundary over all possible integers I am sure to get all possible labelings. It is of course not needed to go over every possible integer, so instead for each dimension I choose the decision boundary to be in:
 
@@ -439,7 +439,7 @@ Finally Algorithm \ref{alg:shatter} was used in Algorithm \ref{alg:finder} to ch
 
 I used the method described in Section \ref{sec:2f} to experimentally find lower-bounds on the VC dimension. Results for this can be seen in Table \ref{tab:experiment-lower-bound-vc}. The boldfaced values are where the lower and upper bound match. To find these values I ran tests with the algorithm shown in Algorithm \ref{alg:finder} using 1000000 attempts each time. I varied the size per dimension from $N$ to $16N$.
 
-I used \cite{decicion-stump-vc-dimension} to find the exact VC-dimension for each dimensionality. This paper states that the VC-dimension of a decision tree with dimensionality d is given by solving for the largest integer m that satisfies
+I already described some of my experiments with finding a tighter bounds and VC-dimensions at the end of section \ref{sec:2d}. While researching that I found the paper \cite{decicion-stump-vc-dimension}. This paper states that the VC-dimension of a decision tree with dimensionality d is given by solving for the largest integer m that satisfies
 
 \[ 2d \geq {m \choose \lfloor\frac{m}{2}\rfloor} \]
 
@@ -465,7 +465,7 @@ I used \cite{decicion-stump-vc-dimension} to find the exact VC-dimension for eac
     \label{tab:vc-dimension}
 \end{table*}
 
-I ran code to solve this inequality, and the results for this can be seen in Table \ref{tab:vc-dimension}. Almost all VC-dimensions are the same as my experimentally found lower-bounds on the VC-dimension except for $d=10$, where I found 5 but the inequality has a result of 6. After seeing this I tried to use Algorithm \ref{alg:finder} to find the correct VC-dimension for $d=10$ by only searching with $N=6$ and my code was able to find a valid solution.
+I ran code to solve this inequality, and the results for this can be seen in Table \ref{tab:vc-dimension}. Almost all VC-dimensions are the same as my experimentally found lower-bounds on the VC-dimension except for $d=10$, where I found 5 but the inequality has a result of 6. After seeing this I tried to use Algorithm \ref{alg:finder} to find the correct VC-dimension for $d=10$ by only searching with $N=6$ and my code was able to find a valid solution after about an hour of trying.
 
 
 \bibliographystyle{plain}
