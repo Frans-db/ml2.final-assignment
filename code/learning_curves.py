@@ -17,7 +17,7 @@ def get_donut_samples(n, scale=0.05):
     ys = r - xs
 
     points = np.array([[x,y] for (x,y) in zip(xs, ys)])
-    return points
+    return np.clip(points, -WIDTH / 2, WIDTH / 2)
     
 
 def find_smallest_bounding_box_area(dataset):
@@ -30,7 +30,7 @@ def find_smallest_bounding_box_area(dataset):
     return area
 
 def main():
-    trials = 200
+    trials = 100
     max_samples = 2_000
 
     results = []
@@ -38,7 +38,7 @@ def main():
     samples_to_test = range(2, max_samples)
     for num_samples in tqdm(samples_to_test):
         results.append([0, 0, 0])
-        for _ in range(trials + 1):
+        for _ in range(trials):
             samples = get_random_samples(num_samples)
             random_area = find_smallest_bounding_box_area(samples)
             error = 2 - random_area
@@ -68,15 +68,29 @@ def main():
     plt.legend(loc='best')
     plt.show()
 
-if __name__ == '__main__':
-    main()
+def test_pac_bound():
+    num_samples = 100
+    trials = 10000
+    failed = 0
+    for _ in range(trials + 1):
+        samples = get_donut_samples(num_samples, scale=7.5)
+        donut_area = find_smallest_bounding_box_area(samples)
+        error = 2 - donut_area
+        if error > 0.25:
+            failed += 1
 
-    # samples = get_random_samples(100)
-    # area = find_smallest_bounding_box_area(samples)
+    print(failed / trials)
+
+
+if __name__ == '__main__':
+    # main()
+    test_pac_bound()
+
+    # samples = get_donut_samples(1000, scale=7.5)
     # xs = [p[0] for p in samples]
     # ys = [p[1] for p in samples]
     # plt.scatter(xs, ys)
     # plt.xlabel('x')
     # plt.ylabel('y')
-    # plt.title(f'{area}')
+    # plt.title(f'Away from edge Samples')
     # plt.show()

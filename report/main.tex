@@ -85,14 +85,14 @@ The git repository for this assignment with the code and the report can be found
 \subsection{Extend the proof that was given in the slides for the PAC-learnability of hyper-rectangles:
 show that axis-aligned hyper-rectangles in n-dimensional feature spaces (n > 2) are PAC
 learnable.}
-\label{sec:2a}
+\label{sec:1a}
   
 We can extend the proof by taking the number of sides/faces of the hyper-rectangle into account.
 \begin{itemize}
     \item A hyper-rectangle in 2-dimensional space is simply a rectangle and has 4 sides.
     \item A hyper-rectangle in 3-dimensional space is a rectangular box and has 6 sides.
 \end{itemize}
-I will assume the number of sides on a n-dimensional hyper-rectangle to be $F(n)$.
+I will assume the number of sides on a n-dimensional hyper-rectangle to be $F(n)$.\footnote{$F(n) = 2n$, \url{https://en.wikipedia.org/wiki/Hypercube\#Faces}}
 
 To start we can follow the steps from the lecture. We have the ground truth n-dimensional hyper-rectangle $R$, and the current tightest fit rectangle $R'$. The error ($R - R'$) can be split into $F(n)$ strips $T'$. On each of these strips we can now grow a new strip $T$ such that the probability mass of $T$ is $\frac{\epsilon}{F(n)}$.
 
@@ -133,9 +133,19 @@ So instead we can use:
 So any n-dimensional hyper-rectangle is learnable.
 
 \subsection{Assume we have a 2-dimensional feature space R2, and consider the set of concepts that are L1-balls: $c = \{(x, y) : |x| + |y| ≤ r\}$ (basically, all L1-balls centered around the origin). Use a learner that fits the tightest ball. Show that this class is PAC-learnable from training data of size m.}
-\label{sec:2b}
+\label{sec:1b}
 
-We can look at this as an axis-aligned hyper-rectangle (from Section \ref{sec:2a}) with $n=1$, and rotated by $45^\circ$ degrees. An example of this can be seen in Figure \ref{fig:l1_ball}.
+We can look at this as an axis-aligned hyper-rectangle (from Section \ref{sec:1a}) with $n=1$, and rotated by $45^\circ$ degrees. An example of this can be seen in Figure \ref{fig:l1_ball}. 
+
+We can again create a strip $T$ representing the decision area on one side of the $L_1$ ball, and grow a region $T'$ to cover a probability mass of $\frac{\epsilon}{4}$. From here the proof follows the steps taken in the lecture. 
+
+We can also take the result from Section \ref{sec:1a} which gave a general bound off
+
+\[ m > (F(n) / \epsilon)\log{(F(n) / \delta)} \]
+
+and replace $F(n)$ with $4$ (or just use $F(n)$ with $n=2$ which gives $F(2) = 4$). This gives a bound on the error: (same as a axis-aligned rectangle)
+
+\[ m > (4 / \epsilon)\log{(4 / \delta)} \]
 
 \begin{figure}[h]
     \caption{Error on a L1 Ball}
@@ -145,43 +155,81 @@ We can look at this as an axis-aligned hyper-rectangle (from Section \ref{sec:2a
 \end{figure}
 
 \subsection{Now we extend the previous class by allowing the varying center: $c = \{(x, y) : |x − x0| + |y − y0| ≤ r\}$. Is this class PAC-learnable? Proof if it is, or otherwise disproof it.}
-\label{sec:2c}
+\label{sec:1c}
 
-This is just a generalization of Section \ref{sec:2b}, but now with a varying center. Our hypothesis space is still a tightest fit ball around the sampled data, which will now also be shifted by $(x_0, y_0)$. Since we are still dealing with a consistent learner this class is also PAC-learnable.
+This is just a generalization of Section \ref{sec:1b}, but now with a varying center. Our hypothesis space is still a tightest fit ball around the sampled data, which will now also be shifted by $(x_0, y_0)$. Since we are still dealing with a consistent learner this class is also PAC-learnable.
 
-The worked out proof for this is the same as for Section \ref{sec:2b}.
+The worked out proof for this is the same as for Section \ref{sec:1b}.
 
 \subsection{Generate data according to, what you would argue is, the ‘best case’ scenario, i.e., for
 which learning is easiest. Clearly specify how you generate this data and show the resulting
 learning curve.}
+\label{sec:1d}
 
-First I'll discuss the setup I'm using to run these tests. I'm generting $L_1$ balls with $r=1$. I've set the size of the sample space to 2. This means that the sample space is a $2x2$ square with the center at $(0,0)$. The surface area of this square is $4$, and the surface area of the $L_1$ ball is $2$, exactly half of the sample space.
+First I'll discuss the setup I'm using to run these tests. I'm generating $L_1$ balls with $r=1$. I've set the size of the sample space to 2. This means that the sample space is a $2x2$ square with the center at $(0,0)$. The surface area of this square is $4$, and the surface area of the $L_1$ ball is $2$, exactly half of the sample space.
 
-For each tests I'll be using a sample size of $m \in \{2, ... , 10000 \}$, and I'll be taking the average of 100 trials. From a set of samples $m$ the surface area of the  $L_1$ ball can be determined, and from here the error of the ground truth can be calculated. This error is 
+For each tests I'll be using a sample size of $m \in \{2, ... , 2000 \}$, and I'll be taking the average of 100 trials. From a set of samples $m$ the surface area of the $L_1$ ball can be determined, and from here the error of the ground truth can be calculated. This error is 
 
 \[(2 - \textit{estimated\_area}) / 2\]
 
 $2$ is the surface area of the ground truth $L_1$ ball. This is divided by 2 because only positive samples that fall into this area will be misclassified (negative samples are never misclassified).
 
-% First I wanted to run a test using a basic uniform distribution to confirm the code is working properly. The results from this test can be seen in Figure \ref{fig:learningcurve_uniform}. The more samples get added, the lower the error will be.
+First I wanted to run a test using a basic uniform distribution (see Figure \ref{fig:random} for an example of generated samples) to confirm the code is working properly. The results from this test can be seen in Figure \ref{fig:learning_curves}. The more samples get added, the lower the error will be.
+
+\begin{figure}[h]
+    \caption{1000 randomly generated samples}
+    \centering
+    \includegraphics[width=0.7\textwidth]{random.png}
+    \label{fig:random}
+\end{figure}
 
 \begin{figure}[h]
     \caption{Learning Curve for a points sampled from a uniform distribution}
     \centering
     \includegraphics[width=\textwidth]{learning_curves.png}
-    \label{fig:learning_curve}
+    \label{fig:learning_curves}
 \end{figure}
 
 The absolute best-case scenario would be a sampling method that generates the first sample to be $x \in \{(1,0), (0,1), (-1,0), (0,-1)\}$.
-All of these samples are on the outer corner of the $L_1$ ball, and the estimated $1$ will always be 1, so the estimated area will be $2$, and error will be $0$.
+All of these samples are on the outer corner of the $L_1$ ball, and the estimated $r$ will always be 1, so the estimated area will be $2$, and error will be $0$.
 
 This however does not seem like a very fair sampling method, so a fairer method might be one that generates samples close to the edge of the $L_1$ ball, so points where 
 \[|x| + |y| \approx 1\]
 Some of these points will fall outside of the $L_1$ ball and cannot be learnt from, but some of them will fall inside and can be used to determine the tightest fit $L_1$ ball.
 
+I generate these points in the following way. First I sample a radius $r \sim N(1, 0.05)$, then sample $x \sim U(0, r)$, and calculate $y = r - x$. both $x$ and $y$ are then clipped to be in $[-1, 1]$ (to be within the previously defined sample space) This generates samples around 1 edge of the $L_1$ ball. See Figure \ref{fig:edge} for an example of how these samples are generated. The results can be seen in Figure \ref{fig:learning_curves}. The method can be adapted to sample all 4 edges of the $L_1$ ball, but the results for this are the same since we are dealing with absolute values.
+
+This sampling method goes to an error of zero quite quickly and stays there.
+
+\begin{figure}[h]
+    \caption{1000 samples generated around the edge of the $L_1$ ball}
+    \centering
+    \includegraphics[width=0.7\textwidth]{edge.png}
+    \label{fig:edge}
+\end{figure}
+
 \subsection{Similarly, generate data according to, what you would argue is, the ‘worst case’ scenario. Clearly specify how you generate this data and show the resulting learning curve. How close is this curve to the theoretical PAC bound?}
+\label{sec:1e}
+
 
 I think there is several cases that give very bad performace, they all have the same thing in common: Samples are generated far away from the edge of the ground-truth $L_1$ ball.
+
+An extreme version of this would be a method that always samples points outside of the ground truth $L_1$ ball. In this case the tightest fit $L_1$ ball would not exist. This however does not seem like a fair sampling method to compare to.
+
+Instead I sampled using the same method as Section \ref{sec:1d}, but now $r \sim N(1, 7.5)$. An example of generated samples can be seen in Figure \ref{fig:no_edge}. Results can be seen in Figure \ref{fig:learning_curves}.
+
+This sampling method takes much longer to get close to an error of 0 than the 2 other sampling methods.
+
+To test how close this method gets to the PAC-bound I made the following test: I chose $\epsilon=0.25$ and $\delta=0.05$, according to the formula from Section \ref{sec:1b} this gives $m=100$, i.e. for $m=100$ we should get an error of $0.25$ or lower $95\%$ of the time. I than ran the same tests I used to create the graphs but now with $10000$ trials.
+
+However when running these tests it failed about $50\%$ of the time. Perhaps this is because the sampling method used is unlikely to sample the entire sample space, and tends to clump around the edges due to the clamping (as can be seen in Figure \ref{fig:no_edge}).
+
+\begin{figure}[h]
+    \caption{1000 samples generated away from the edge of the $L_1$ ball}
+    \centering
+    \includegraphics[width=0.7\textwidth]{no_edge.png}
+    \label{fig:no_edge}
+\end{figure}
 
 \clearpage
 \section{VC Dimension}
