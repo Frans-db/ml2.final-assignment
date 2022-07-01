@@ -34,12 +34,9 @@ def can_shatter(dataset):
 
 def generate_random_data(d, n):
     while True:
-        yield np.random.randint(-n, n, (n, d))
+        yield np.random.randint(-8*n, 8*n, (n, d))
 
 def enumerate_data(d, n):
-    """
-    n**d
-    """
     datasets = itertools.product(*tuple([itertools.product(*tuple([range(0, n) for _ in range(d)])) for _ in range(n)]))
     for dataset in datasets:
         yield np.array(dataset)
@@ -70,7 +67,7 @@ def main():
     args = parser.parse_args()
 
     # quickly thrown together multiprocessing so I don't have to wait too long for results
-    upper_bounds = [(1,2), (2,4), (3,4), (4,5), (5,5), (6,6), (7,6), (8,6), (9,6), (10,7), (11,7), (12,7)]
+    upper_bounds = [(2,4), (4,5), (6,6), (7,6), (8,6), (9,6), (10,7), (11,7), (12,7)]
     configs = [(d, upper_bound, args.max_attempts) for d,upper_bound in (upper_bounds)]
     pool_obj = multiprocessing.Pool(processes=args.num_processes)
     pool_obj.map(check_dimensionality, configs)

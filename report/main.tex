@@ -131,13 +131,16 @@ So instead we can use:
 So any n-dimensional hyper-rectangle is learnable.
 
 \subsection{Assume we have a 2-dimensional feature space R2, and consider the set of concepts that are L1-balls: $c = \{(x, y) : |x| + |y| ≤ r\}$ (basically, all L1-balls centered around the origin). Use a learner that fits the tightest ball. Show that this class is PAC-learnable from training data of size m.}
+\label{sec:2b}
 
 Same thing? what. literally just question a but now rotated 45 degrees
 
 \subsection{Now we extend the previous class by allowing the varying center: $c = \{(x, y) : |x − x0| + |y − y0| ≤ r\}$. Is this class PAC-learnable? Proof if it is, or otherwise disproof it.}
+\label{sec:2c}
 
-maybe, maybe not. can't you still just do the tightest fit L1 ball?
-consistent learner so PAC learnable?
+This is just a generalization of Section \ref{sec:2b}, but now with a varying center. Our hypothesis space is still a tightest fit ball around the sampled data, which will now also be shifted by $(x_0, y_0)$. Since we are still dealing with a consistent learner this class is also PAC-learnable.
+
+The worked out proof for this is the same as for Section \ref{sec:2b}.
 
 \subsection{Generate data according to, what you would argue is, the ‘best case’ scenario, i.e., for
 which learning is easiest. Clearly specify how you generate this data and show the resulting
@@ -198,8 +201,8 @@ Each data point can have 2 labels, so $2^N$
 be able to find perfect solutions to all possible labelings of a data set of size N? Stated
 differently, what is the smallest d that allows us to shatter N points?}
 \label{sec:2b}
-$d - 1$ 
 
+From the \textit{Machine Learning 1} course (2021/22 edition, Week 4: Complexity and SVMs): A linear classifier with $d$ parameters (dimensions) can shatter $d+1$ points. In other words, the smallest $d$ that allows us to shatter $N$ points is $d = N - 1$. 
 
 \subsection{Consider d = 1 and a data set of size N. At maximum, how many different labelings of
 such a data set can decision stumps solve perfectly, i.e., with zero training error?}
@@ -387,7 +390,7 @@ Finally Algorithm \ref{alg:shatter} was used in Algorithm \ref{alg:finder} to ch
     \label{tab:experiment-lower-bound-vc}
 \end{table*}
 
-I used the method described in Section \ref{sec:2f} to experimentally find lower-bounds on the VC dimension. Results for this can be seen in Table \ref{tab:experiment-lower-bound-vc}. The boldfaced values are where the lower and upper bound match. To find these values I ran tests with the algorithm shown in Algorithm \ref{alg:finder} using 1000000 attempts each time. I varied the size per dimension from $N$ to $4N$.
+I used the method described in Section \ref{sec:2f} to experimentally find lower-bounds on the VC dimension. Results for this can be seen in Table \ref{tab:experiment-lower-bound-vc}. The boldfaced values are where the lower and upper bound match. To find these values I ran tests with the algorithm shown in Algorithm \ref{alg:finder} using 1000000 attempts each time. I varied the size per dimension from $N$ to $16N$.
 
 \bibliographystyle{plain}
 \bibliography{refs}
