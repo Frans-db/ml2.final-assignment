@@ -164,28 +164,11 @@ First I wanted to run a test using a basic uniform distribution to confirm the c
     \label{fig:learningcurve_uniform}
 \end{figure}
 
-I personally think the best case scenario would be a method that generates samples close to the edge of the $L_1$ ball. To do this I generated values for polar coordinates and converted these to cartesian coordinates in the following way:
+I personally think the best case scenario would be a method that generates samples close to the edge of the $L_1$ ball. Even better would be a method that generates sampels close to the outer points of the $L_1$ ball (so points where either $|x| \approx 1 \lor |y| \approx 1 $). In these cases the bounds of the $L_1$ ball can be obtained with just a few samples.
 
-\begin{align*} 
-    &r_i ~ N(1, 0.2) \\ 
-    &d_i ~ U(0, 2\pi) \\
-    &x_i = r_i \cos(d_i) \\
-    &y_i = r_i \sin(d_i) \\
-\end{align*}
+\subsection{Similarly, generate data according to, what you would argue is, the ‘worst case’ scenario. Clearly specify how you generate this data and show the resulting learning curve. How close is this curve to the theoretical PAC bound?}
 
-This will generate samples following a donut like distribution (see Figure \ref{fig:donut} for an example of generated points). The learning curve can be seen in Figure 
-
-\begin{figure}[h]
-    \caption{Donut Distribution ($m=10000$)}
-    \centering
-    \includegraphics[width=\textwidth]{donut.png}
-    \label{fig:donut}
-\end{figure}
-
-\subsection{Similarly, generate data according to, what you would argue is, the ‘worst case’ scenario.
-Clearly specify how you generate this data and show the resulting learning curve. How
-close is this curve to the theoretical PAC bound?}
-
+I think there is several cases that give very bad performace, they all have the same thing in common: Samples are generated far away from the edge of the ground-truth $L_1$ ball.
 
 \clearpage
 \section{VC Dimension}
