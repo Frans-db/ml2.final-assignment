@@ -34,7 +34,7 @@ def can_shatter(dataset):
 
 def generate_random_data(d, n):
     while True:
-        yield np.random.randint(-8*n, 8*n, (n, d))
+        yield np.random.randint(-10*n, 10*n, (n, d))
 
 def enumerate_data(d, n):
     datasets = itertools.product(*tuple([itertools.product(*tuple([range(0, n) for _ in range(d)])) for _ in range(n)]))
