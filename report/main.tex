@@ -85,13 +85,14 @@ The git repository for this assignment with the code and the report can be found
 \subsection{Extend the proof that was given in the slides for the PAC-learnability of hyper-rectangles:
 show that axis-aligned hyper-rectangles in n-dimensional feature spaces (n > 2) are PAC
 learnable.}
+\label{sec:2a}
   
 We can extend the proof by taking the number of sides/faces of the hyper-rectangle into account.
 \begin{itemize}
     \item A hyper-rectangle in 2-dimensional space is simply a rectangle and has 4 sides.
     \item A hyper-rectangle in 3-dimensional space is a rectangular box and has 6 sides.
 \end{itemize}
-For now I will assume the number of sides on a n-dimensional hyper-rectangle to be $F(n)$, and I will get back later to the calculation of $F(n)$.
+I will assume the number of sides on a n-dimensional hyper-rectangle to be $F(n)$.
 
 To start we can follow the steps from the lecture. We have the ground truth n-dimensional hyper-rectangle $R$, and the current tightest fit rectangle $R'$. The error ($R - R'$) can be split into $F(n)$ strips $T'$. On each of these strips we can now grow a new strip $T$ such that the probability mass of $T$ is $\frac{\epsilon}{F(n)}$.
 
@@ -134,7 +135,14 @@ So any n-dimensional hyper-rectangle is learnable.
 \subsection{Assume we have a 2-dimensional feature space R2, and consider the set of concepts that are L1-balls: $c = \{(x, y) : |x| + |y| ≤ r\}$ (basically, all L1-balls centered around the origin). Use a learner that fits the tightest ball. Show that this class is PAC-learnable from training data of size m.}
 \label{sec:2b}
 
-Same thing? what. literally just question a but now rotated 45 degrees
+We can look at this as an axis-aligned hyper-rectangle (from Section \ref{sec:2a}) with $n=1$, and rotated by $45^\circ$ degrees. An example of this can be seen in Figure \ref{fig:l1_ball}.
+
+\begin{figure}[h]
+    \caption{Error on a L1 Ball}
+    \centering
+    \includegraphics[width=0.8\textwidth]{l1ball.png}
+    \label{fig:l1_ball}
+\end{figure}
 
 \subsection{Now we extend the previous class by allowing the varying center: $c = \{(x, y) : |x − x0| + |y − y0| ≤ r\}$. Is this class PAC-learnable? Proof if it is, or otherwise disproof it.}
 \label{sec:2c}
@@ -164,7 +172,7 @@ First I wanted to run a test using a basic uniform distribution to confirm the c
     \label{fig:learningcurve_uniform}
 \end{figure}
 
-I personally think the best case scenario would be a method that generates samples close to the edge of the $L_1$ ball. Even better would be a method that generates sampels close to the outer points of the $L_1$ ball (so points where either $|x| \approx 1 \lor |y| \approx 1 $). In these cases the bounds of the $L_1$ ball can be obtained with just a few samples.
+I personally think the best case scenario would be a method that generates samples close to the edge of the $L_1$ ball. Even better would be a method that generates sampels close to the outer points of the $L_1$ ball, so points where \[(|x| \approx 1 \lor |y| \approx 1) \land |x| + |y| = 1\]. In these cases the bounds of the $L_1$ ball can be obtained with just a few samples.
 
 \subsection{Similarly, generate data according to, what you would argue is, the ‘worst case’ scenario. Clearly specify how you generate this data and show the resulting learning curve. How close is this curve to the theoretical PAC bound?}
 
@@ -404,7 +412,7 @@ I used \cite{decicion-stump-vc-dimension} to find the exact VC-dimension for eac
     \label{tab:vc-dimension}
 \end{table*}
 
-I ran code to solve this inequality, and the results for this can be seen in Table \ref{tab:vc-dimension}. Almost all VC-dimensions are the same as my experimentally found lower-bounds on the VC-dimension except for $d=10$, where I found 5 but the inequality has a result of 6.
+I ran code to solve this inequality, and the results for this can be seen in Table \ref{tab:vc-dimension}. Almost all VC-dimensions are the same as my experimentally found lower-bounds on the VC-dimension except for $d=10$, where I found 5 but the inequality has a result of 6. After seeing this I tried to use Algorithm \ref{alg:finder} to find the correct VC-dimension for $d=10$, but it was unable to find it.
 
 
 
