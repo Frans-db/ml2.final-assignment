@@ -67,7 +67,7 @@ def main():
     args = parser.parse_args()
 
     # quickly thrown together multiprocessing so I don't have to wait too long for results
-    upper_bounds = [(2,4), (4,5), (6,6), (7,6), (8,6), (9,6), (10,7), (11,7), (12,7)]
+    upper_bounds = [(10,6)]
     configs = [(d, upper_bound, args.max_attempts) for d,upper_bound in (upper_bounds)]
     pool_obj = multiprocessing.Pool(processes=args.num_processes)
     pool_obj.map(check_dimensionality, configs)

@@ -393,7 +393,34 @@ Finally Algorithm \ref{alg:shatter} was used in Algorithm \ref{alg:finder} to ch
 
 I used the method described in Section \ref{sec:2f} to experimentally find lower-bounds on the VC dimension. Results for this can be seen in Table \ref{tab:experiment-lower-bound-vc}. The boldfaced values are where the lower and upper bound match. To find these values I ran tests with the algorithm shown in Algorithm \ref{alg:finder} using 1000000 attempts each time. I varied the size per dimension from $N$ to $16N$.
 
-% In my experiments I found the VC-dimension for $d=2$ to be most likely 3. I then found \href{http://www.cs.cmu.edu/~aarti/Class/10701_Spring14/slides/LearningTheoryII.pdf}{\underline{this presentation}}\footnote{\url{http://www.cs.cmu.edu/~aarti/Class/10701_Spring14/slides/LearningTheoryII.pdf}} that shows a proof that I will try to explain in my own words:
+I used \cite{decicion-stump-vc-dimension} to find the exact VC-dimension for each dimensionality. This paper states that the VC-dimension of a decision tree with dimensionality d is given by solving for the largest integer m that satisfies
+
+\[ 2d \geq {m \choose \lfloor\frac{m}{2}\rfloor} \]
+
+\begin{table*}
+    \begin{tabular}{|c|c|}
+    \hline
+    Dimensionality & VC-Dimension \\ \hline
+    1              & 2                        \\ \hline
+    2              & 3                           \\ \hline
+    3              & 4                         \\ \hline
+    4              & 4                            \\ \hline
+    5              & 5                            \\ \hline
+    6              &    5                         \\ \hline
+    7              & 5                           \\ \hline
+    8              & 5                            \\ \hline
+    9              & 5                            \\ \hline
+    10              & \textbf{6}                            \\ \hline
+    11             &  6                          \\ \hline
+    12              &  6                           \\ \hline
+    \end{tabular}
+    \caption{VC-Dimension for decision stumps with dimensionality $d$}
+    \label{tab:vc-dimension}
+\end{table*}
+
+I ran code to solve this inequality, and the results for this can be seen in Table \ref{tab:vc-dimension}. Almost all VC-dimensions are the same as my experimentally found lower-bounds on the VC-dimension except for $d=10$, where I found 5 but the inequality has a result of 6.
+
+
 
 \bibliographystyle{plain}
 \bibliography{refs}
